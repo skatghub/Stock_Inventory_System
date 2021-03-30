@@ -373,3 +373,91 @@ loggin_manager()
     logged:;
     return 0;
 }
+loggin_owner()
+{
+    fstream fo;
+    int o=0;
+    fo.open("USER_owner.txt");
+    string userstr,passstr;
+    cout<<"Enter the User name: ";
+    getline(cin,userstr);
+    getline(cin,userstr);
+    string userdata;
+    for(int pok=0;pok<100;pok++)
+    {
+        fo>>userdata;
+        o++;
+        if(strcmp(userstr.c_str(),userdata.c_str())==0)
+        {
+            cout<<"Enter the Password: ";
+            char ch;
+            ch = _getch();
+            while(ch != 13)
+            {
+            passstr.push_back(ch);
+            cout << '*';
+            ch = _getch();
+            }
+            fstream po;
+            po.open("PASS_owner.txt");
+            string passdata;
+            int itp=0;
+            for(itp=0;(po>>passdata)&&(itp<(o+1));itp++)
+            {
+                if(itp==o-1)
+                {
+                    if(strcmp(passstr.c_str(),passdata.c_str())==0)
+                    {
+                        int choice;
+                        cout<<endl<<"Logged in"<<endl;
+                        cout<<"Enter the function code: "<<endl<<"1. Create ID for the company"<<endl<<"2. Check Employee details"<<endl;
+                        cin>>choice;
+                        switch(choice)
+                        {
+                            case 1: create_id();
+                                    break;
+                            case 2: view_emp_details();
+                                    break;
+                            default: cout<<endl<<"!!INVALID ENTRY!!"<<endl;
+                                    break;
+                        }
+                                    // TABLE FOR THE PARTICULAR MEMBER  //
+                        // THERE PARTICULAR FEATURES OR FUNCTION AFTER LOGINING IN //
+                        goto logged;
+                    }
+                    else
+                    {
+                        cout<<"Invalid Credentials"<<endl;
+                        po.close();
+                        goto logged;
+                    }
+                }
+            }
+            po.close();
+        }
+    }
+    fo.close();
+    logged:;
+    return 0;
+}
+loggin()
+{
+    int x;
+    cout<<"Enter Your Designation Number: "<<endl<<"1. Owner "<<endl<<"2. Manager "<<endl<<"3. Employee "<<endl;
+    cin>>x;
+    switch (x)
+   {
+       case 1: loggin_owner();
+               break;
+       case 2: loggin_manager();
+                break;
+       case 3: loggin_emp();
+               break;
+       default: cout<<endl<<"!!INVALID ENTRY!!"<<endl;
+                break;
+   }
+}
+int main()
+{
+    loggin();
+}

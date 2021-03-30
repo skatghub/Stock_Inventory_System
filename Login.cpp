@@ -2,6 +2,7 @@
 #include<string.h>
 #include<conio.h>
 #include<fstream.h>
+#include<time.h>
 using namespace std;
 create_id()
 {
